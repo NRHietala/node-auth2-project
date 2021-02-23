@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node index.js",
-    "server":"nodemon index.js",
-    "migratedb":"npx knex migrate:latest",
-    "rollbackdb":"npx knex migrate:rollback"
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "migratedb": "npx knex migrate:latest",
+    "rollbackdb": "npx knex migrate:rollback"
   },
   "repository": {
     "type": "git",
