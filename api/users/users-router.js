@@ -5,4 +5,13 @@ const User = require("./users-model");
 
 // restricted middleware
 
-router.get("/", (_, res) => {});
+router.get("/", async (_, res) => {
+  try {
+    const users = await User.getAll();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json("Server Error");
+  }
+});
+
+module.exports = router;

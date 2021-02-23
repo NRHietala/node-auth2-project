@@ -1,13 +1,13 @@
 exports.seed = function (knex) {
   return knex("users")
-    .del()
+    .truncate()
     .then(function () {
       return knex("users").insert([
         {
           id: 1,
           username: "jack sparrow",
           password: 1234,
-          department: "biology",
+          department: "math",
         },
         {
           id: 2,
@@ -19,7 +19,7 @@ exports.seed = function (knex) {
           id: 3,
           username: "frodo baggins",
           password: 1234,
-          department: "phys ed",
+          department: "science",
         },
       ]);
     });

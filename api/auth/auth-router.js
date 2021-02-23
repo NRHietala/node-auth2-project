@@ -1,12 +1,16 @@
-const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+const User = require("../users/users-model");
+
+const { isValid } = require("../../utils/validation");
+
 const router = express().Router();
 
 router.post("/register", async (req, res, next) => {
   const credentials = req.body;
   try {
-    if (credentials) {
+    if (isValid(credentials)) {
       // add in validation
       const rounds = process.env.BCRYPT_ROUNDS || 8;
       const hashed = bcrypt.hashSync(credentials.password, rounds);

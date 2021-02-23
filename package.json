@@ -8,7 +8,8 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "migratedb": "npx knex migrate:latest",
-    "rollbackdb": "npx knex migrate:rollback"
+    "rollbackdb": "npx knex migrate:rollback",
+    "seed":"npx knex seed:run"
   },
   "repository": {
     "type": "git",
