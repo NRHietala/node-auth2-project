@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const User = require("./users-model");
+const restricted = require("../middleware/restricted-middleware");
 
-// restricted middleware
-
-router.get("/", async (_, res) => {
+router.get("/", restricted, async (_, res) => {
   try {
     const users = await User.getAll();
     res.status(200).json(users);
