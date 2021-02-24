@@ -26,48 +26,24 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
-
-  if (isValid(req.body)) {
-    User.findBy({ username: username })
-      .then(([user]) => {
-        if (user && bcrypt.compareSync(password, user.password)) {
-          const token = generateToken(user);
-          res.status(200).json({ message: "Welcome to our API", token });
-        } else {
-          res.status(401).json({ message: "Invalid credentials" });
-        }
-      })
-      .catch(error => {
-        res.status(500).json({ message: error.message });
-      });
-  } else {
-    res.status(400).json({
-      message:
-        "please provide username and password and the password shoud be alphanumeric",
-    });
+  try {
+    if (isValid(req.body)) {
+      const tryUser = await User.findBy({ username: username }).first();
+      if (tryUser && bcrypt.compareSync(password, tryUser.password)) {
+        const token = generateToken(tryUser);
+        res
+          .status(200)
+          .json({ message: `Welcome back ${tryUser.username}`, token });
+      } else {
+        res.status(401).json("Invalid Credentials");
+      }
+    }
+  } catch (error) {
+    res.status(500).json(error.message);
   }
 });
-
-// router.post("/login", async (req, res, next) => {
-//   const { username, password } = req.body;
-//   try {
-//     if (isValid(req.body)) {
-//       const tryUser = await User.findBy({ username: username }).first();
-//       if (tryUser && bcrypt.compareSync(password, tryUser.password)) {
-//         const token = generateToken(tryUser);
-//         res
-//           .status(200)
-//           .json({ message: `Welcome back ${tryUser.username}`, token });
-//       } else {
-//         res.status(401).json("Invalid Credentials");
-//       }
-//     }
-//   } catch (error) {
-//     res.status(500).json(error.message);
-//   }
-// });
 
 function generateToken(user) {
   const payload = {
